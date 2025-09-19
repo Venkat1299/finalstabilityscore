@@ -1,0 +1,6 @@
+.DS_Store
+*.pyc
+__pycache__/
+.ipynb_checkpoints/
+*.egg-info/
+Miniforge3-MacOSX-arm64.sh
