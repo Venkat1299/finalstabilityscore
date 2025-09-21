@@ -1,5 +1,5 @@
 import numpy as np
-from stabilityscore.core import stability_framework
+from finalstabilityscore.core import stability_framework
 
 def dummy_model(X, y):
     return np.mean(y)

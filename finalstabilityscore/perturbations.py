@@ -54,20 +54,20 @@ def run_all_perturbations(model, X, y, n_iter=10, test_size=0.2, random_state=42
         return X[idx], y[idx]
 
     def perturb_noise(X, y):
-        noise = np.random.normal(0, 0.1, X.shape)
+        noise = np.random.normal(0, 0.1 * X.std(axis=0), X.shape)
         return X + noise, y
 
     def perturb_missing(X, y):
         X_copy = X.copy()
         mask = np.random.rand(*X.shape) < 0.1
-        X_copy[mask] = 0
+        X_copy[mask] = np.nan
+        X_copy = np.where(np.isnan(X_copy), np.nanmean(X_copy, axis=0), X_copy)
         return X_copy, y
 
     def perturb_outliers(X, y):
         X_copy = X.copy()
-        n_outliers = int(0.05 * len(X))
-        idx = np.random.choice(len(X), n_outliers, replace=False)
-        X_copy[idx] += np.random.normal(10, 5, X_copy[idx].shape)
+        idx = np.random.choice(len(X), int(0.05 * len(X)), replace=False)
+        X_copy[idx] *= 10
         return X_copy, y
 
     perturbations = {
